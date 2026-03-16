@@ -1,0 +1,45 @@
+name: Generate Pitch Deck PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pitch-deck/**'
+      - 'generate-pitch-pdf.mjs'
+  workflow_dispatch: # allow manual trigger from GitHub UI
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Chromium for Puppeteer
+        run: pnpm exec puppeteer browsers install chrome
+
+      - name: Generate PDF
+        run: node generate-pitch-pdf.mjs
+
+      - name: Commit PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pitch-deck/pitch-deck.pdf
+          git diff --staged --quiet || git commit -m "chore: regenerate pitch-deck.pdf [skip ci]"
+          git push

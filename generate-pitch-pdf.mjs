@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import { PDFDocument } from 'pdf-lib';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -12,13 +12,18 @@ const SLIDE_COUNT = 15;
 const WIDTH = 1280;
 const HEIGHT = 720;
 
-const CHROME_PATH =
+const LOCAL_CHROME =
   '/Users/jakengatchu/.cache/puppeteer/chrome/mac_arm-146.0.7680.76/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing';
+
+// In CI, PUPPETEER_EXECUTABLE_PATH is set automatically; locally fall back to the cached path.
+const executablePath =
+  process.env.PUPPETEER_EXECUTABLE_PATH ||
+  (existsSync(LOCAL_CHROME) ? LOCAL_CHROME : undefined);
 
 console.log('Launching browser...');
 const browser = await puppeteer.launch({
   headless: 'new',
-  executablePath: CHROME_PATH,
+  ...(executablePath ? { executablePath } : {}),
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
 });
 

@@ -100,6 +100,27 @@
     #fs-btn:hover { color: var(--text); border-color: var(--accent); }
     #fs-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
+    #dl-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 14px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid rgba(233,30,140,0.4);
+      background: rgba(233,30,140,0.12);
+      color: #E91E8C;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    #dl-btn:hover { background: rgba(233,30,140,0.22); border-color: var(--accent); }
+    #dl-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    #dl-btn.unavailable { opacity: 0.35; pointer-events: none; }
+
     /* ── Main stage ─────────────────────────────────── */
     #stage {
       flex: 1;
@@ -255,11 +276,16 @@
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
 
-    <span id="slide-counter"><strong>1</strong> / 14</span>
+    <span id="slide-counter"><strong>1</strong> / 15</span>
 
     <button class="nav-btn" id="btn-next" title="Next (→)">
       <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
+
+    <a id="dl-btn" href="pitch-deck/pitch-deck.pdf" download="StoreFactory-Pitch-Deck.pdf" title="Download PDF">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download PDF
+    </a>
 
     <button id="fs-btn" title="Toggle fullscreen (F)">
       <svg id="fs-icon-enter" viewBox="0 0 24 24">
@@ -300,7 +326,7 @@
 </div>
 
 <script>
-  const SLIDES = Array.from({length: 14}, (_, i) => `pitch-deck/slide-${i + 1}.html`);
+  const SLIDES = Array.from({length: 15}, (_, i) => `pitch-deck/slide-${i + 1}.html`);
   const TOTAL  = SLIDES.length;
 
   let current = 0;
