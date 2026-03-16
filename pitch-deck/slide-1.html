@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>StoreFactory Pitch Deck - Cover</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0A0A0A;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: #0A0A0A;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Subtle Grid Pattern Background */
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            padding: 0 80px;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 48px;
+        }
+
+        .logo-img {
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 84px;
+            line-height: 1.1;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .highlight-text {
+            color: #E91E8C;
+            /* Fallback for gradient restriction: Hot Pink */
+        }
+
+        .subtitle {
+            font-size: 28px;
+            line-height: 1.4;
+            color: #A3A3A3;
+            max-width: 800px;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .tagline {
+            font-size: 20px;
+            color: #7B2FBE;
+            /* Purple brand accent */
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 48px;
+            padding: 8px 16px;
+            border: 1px solid rgba(123, 47, 190, 0.3);
+            border-radius: 999px;
+            background-color: rgba(123, 47, 190, 0.1);
+        }
+
+        .traction-bar {
+            display: flex;
+            gap: 40px;
+            padding: 20px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+        }
+
+        .traction-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .traction-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .traction-label {
+            font-size: 14px;
+            color: #6B7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #4B5563;
+        }
+
+        /* Decorative glowing orbs (simulated with solid colors/opacity since gradients are restricted in style rules, using box-shadow instead) */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background-color: #E91E8C;
+            top: -100px;
+            left: -100px;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background-color: #5B4FE8;
+            bottom: -150px;
+            right: -150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <!-- Background Elements -->
+        <div class="grid-bg"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <!-- Main Content -->
+        <div class="content">
+            <div class="logo-container">
+                <!-- Using the provided logo URL -->
+                <img alt="StoreFactory Logo" class="logo-img" src="./StoreFactory.png" />
+            </div>
+            <h1 class="hero-title">
+                The operating system for <br/><span class="highlight-text">AI-native ecommerce</span><br />
+            </h1>
+            <p class="tagline">
+                Headless without the headache
+            </p>
+            <p class="subtitle">
+                AI-powered infrastructure for building and operating
+                modern ecommerce stores.
+            </p>
+            <div class="traction-bar">
+                <div class="traction-item">
+                    <span class="traction-value">Live</span>
+                    <span class="traction-label">Open Beta</span>
+                </div>
+                <div class="traction-item">
+                    <span class="traction-value">80+</span>
+                    <span class="traction-label">Registered Users</span>
+                </div>
+                <div class="traction-item">
+                    <span class="traction-value">4</span>
+                    <span class="traction-label">Stores Deployed</span>
+                </div>
+                <div class="traction-item">
+                    <span class="traction-value">£150K</span>
+                    <span class="traction-label">Raising Angel Round</span>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-text">Confidential &amp; Proprietary • StoreFactory Pitch Deck</p>
+        </div>
+    </div>
+</body>
+
+</html>

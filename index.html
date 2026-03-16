@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StoreFactory — Pitch Deck</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0A0A0A;
+      --surface:  #141414;
+      --border:   #222;
+      --accent:   #E91E8C;
+      --accent2:  #6C63FF;
+      --text:     #fff;
+      --muted:    #666;
+      --thumb-w:  160px;
+      --thumb-h:  90px;
+      --nav-h:    56px;
+      --strip-h:  120px;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── Layout ─────────────────────────────────────── */
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* ── Top nav bar ────────────────────────────────── */
+    #topbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 20px;
+      height: var(--nav-h);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    #topbar .brand {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-right: auto;
+    }
+    #topbar .brand span { color: var(--accent); }
+
+    .nav-btn {
+      background: var(--border);
+      border: 1px solid #333;
+      color: var(--text);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+    .nav-btn:hover { background: #2a2a2a; border-color: var(--accent); }
+    .nav-btn:disabled { opacity: 0.3; cursor: default; }
+    .nav-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    #slide-counter {
+      font-size: 13px;
+      color: var(--muted);
+      min-width: 72px;
+      text-align: center;
+    }
+    #slide-counter strong { color: var(--text); }
+
+    #fs-btn {
+      background: transparent;
+      border: 1px solid #333;
+      color: var(--muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    #fs-btn:hover { color: var(--text); border-color: var(--accent); }
+    #fs-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── Main stage ─────────────────────────────────── */
+    #stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg);
+    }
+
+    #slide-wrap {
+      position: relative;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+      border-radius: 4px;
+      overflow: hidden;
+      /* dimensions set via JS */
+    }
+
+    #slide-frame {
+      display: block;
+      width: 1280px;
+      height: 720px;
+      border: none;
+      transform-origin: top left;
+      /* scale set via JS */
+    }
+
+    /* Arrow overlays */
+    .arrow-overlay {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10,10,10,0.5);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: color 0.15s, background 0.15s, opacity 0.15s;
+      opacity: 0;
+    }
+    #stage:hover .arrow-overlay { opacity: 1; }
+    .arrow-overlay:hover { color: var(--text); background: rgba(233,30,140,0.25); border-color: var(--accent); }
+    .arrow-overlay:disabled { pointer-events: none; opacity: 0 !important; }
+    .arrow-overlay svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    #arrow-prev { left: 16px; }
+    #arrow-next { right: 16px; }
+
+    /* ── Thumbnail strip ────────────────────────────── */
+    #strip-outer {
+      height: var(--strip-h);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #333 transparent;
+    }
+    #strip-outer::-webkit-scrollbar { height: 4px; }
+    #strip-outer::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+    #strip {
+      display: flex;
+      gap: 10px;
+      padding: 14px 20px;
+      width: max-content;
+    }
+
+    .thumb {
+      flex-shrink: 0;
+      width: var(--thumb-w);
+      cursor: pointer;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: border-color 0.15s, transform 0.15s;
+      position: relative;
+      background: #0e0e0e;
+    }
+    .thumb:hover { border-color: rgba(233,30,140,0.5); transform: translateY(-2px); }
+    .thumb.active { border-color: var(--accent); }
+
+    .thumb-frame-wrap {
+      width: 100%;
+      height: var(--thumb-h);
+      overflow: hidden;
+      position: relative;
+      pointer-events: none;
+    }
+
+    .thumb-frame {
+      width: 1280px;
+      height: 720px;
+      border: none;
+      transform-origin: top left;
+      transform: scale(calc(160/1280));
+      display: block;
+      pointer-events: none;
+    }
+
+    .thumb-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 3px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      text-align: center;
+    }
+    .thumb.active .thumb-label { color: var(--accent); }
+
+    /* ── Progress bar ───────────────────────────────── */
+    #progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.3s ease;
+      pointer-events: none;
+    }
+
+    /* ── Transition fade ────────────────────────────── */
+    #slide-wrap { transition: opacity 0.2s ease; }
+    #slide-wrap.fading { opacity: 0; }
+
+    /* ── Fullscreen adjustments ─────────────────────── */
+    :fullscreen #strip-outer,
+    :-webkit-full-screen #strip-outer { display: none; }
+    :fullscreen #topbar,
+    :-webkit-full-screen #topbar { display: none; }
+    :fullscreen #stage,
+    :-webkit-full-screen #stage { height: 100vh; }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- Top bar -->
+  <header id="topbar">
+    <div class="brand">Store<span>Factory</span> &nbsp;·&nbsp; Pitch Deck</div>
+
+    <button class="nav-btn" id="btn-prev" title="Previous (←)">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <span id="slide-counter"><strong>1</strong> / 14</span>
+
+    <button class="nav-btn" id="btn-next" title="Next (→)">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+    <button id="fs-btn" title="Toggle fullscreen (F)">
+      <svg id="fs-icon-enter" viewBox="0 0 24 24">
+        <polyline points="15 3 21 3 21 9"/>
+        <polyline points="9 21 3 21 3 15"/>
+        <line x1="21" y1="3" x2="14" y2="10"/>
+        <line x1="3" y1="21" x2="10" y2="14"/>
+      </svg>
+      <svg id="fs-icon-exit" viewBox="0 0 24 24" style="display:none">
+        <polyline points="4 14 10 14 10 20"/>
+        <polyline points="20 10 14 10 14 4"/>
+        <line x1="10" y1="14" x2="3" y2="21"/>
+        <line x1="21" y1="3" x2="14" y2="10"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Slide stage -->
+  <main id="stage">
+    <div id="slide-wrap">
+      <iframe id="slide-frame" src="" title="Slide"></iframe>
+      <div id="progress"></div>
+    </div>
+
+    <button class="arrow-overlay" id="arrow-prev">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="arrow-overlay" id="arrow-next">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </main>
+
+  <!-- Thumbnail strip -->
+  <div id="strip-outer">
+    <div id="strip"></div>
+  </div>
+
+</div>
+
+<script>
+  const SLIDES = Array.from({length: 14}, (_, i) => `pitch-deck/slide-${i + 1}.html`);
+  const TOTAL  = SLIDES.length;
+
+  let current = 0;
+
+  // ── Elements ────────────────────────────────────────
+  const frame       = document.getElementById('slide-frame');
+  const wrap        = document.getElementById('slide-wrap');
+  const counter     = document.getElementById('slide-counter');
+  const progress    = document.getElementById('progress');
+  const btnPrev     = document.getElementById('btn-prev');
+  const btnNext     = document.getElementById('btn-next');
+  const arrowPrev   = document.getElementById('arrow-prev');
+  const arrowNext   = document.getElementById('arrow-next');
+  const strip       = document.getElementById('strip');
+  const fsBtn       = document.getElementById('fs-btn');
+  const fsEnter     = document.getElementById('fs-icon-enter');
+  const fsExit      = document.getElementById('fs-icon-exit');
+  const stage       = document.getElementById('stage');
+
+  // ── Scale slide to fit stage ─────────────────────────
+  function scaleSlide() {
+    const W = 1280, H = 720;
+    const sw = stage.clientWidth  - 32;   // 16px padding each side
+    const sh = stage.clientHeight - 32;
+    const scale = Math.min(sw / W, sh / H, 1);
+    wrap.style.width  = (W * scale) + 'px';
+    wrap.style.height = (H * scale) + 'px';
+    frame.style.transform = `scale(${scale})`;
+  }
+
+  // ── Navigate ────────────────────────────────────────
+  function goTo(index, skipFade = false) {
+    if (index < 0 || index >= TOTAL) return;
+
+    const doLoad = () => {
+      current = index;
+      frame.src = SLIDES[current];
+      updateUI();
+      wrap.classList.remove('fading');
+    };
+
+    if (skipFade) {
+      doLoad();
+    } else {
+      wrap.classList.add('fading');
+      setTimeout(doLoad, 180);
+    }
+  }
+
+  function updateUI() {
+    counter.innerHTML = `<strong>${current + 1}</strong> / ${TOTAL}`;
+    progress.style.width = ((current + 1) / TOTAL * 100) + '%';
+
+    btnPrev.disabled   = current === 0;
+    arrowPrev.disabled = current === 0;
+    btnNext.disabled   = current === TOTAL - 1;
+    arrowNext.disabled = current === TOTAL - 1;
+
+    // active thumbnail
+    document.querySelectorAll('.thumb').forEach((el, i) => {
+      el.classList.toggle('active', i === current);
+    });
+
+    // scroll active thumb into view
+    const activeThumb = strip.children[current];
+    if (activeThumb) {
+      activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }
+
+  // ── Build thumbnail strip ────────────────────────────
+  function buildStrip() {
+    SLIDES.forEach((src, i) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      thumb.title = `Slide ${i + 1}`;
+
+      const fw = document.createElement('div');
+      fw.className = 'thumb-frame-wrap';
+
+      const tf = document.createElement('iframe');
+      tf.className = 'thumb-frame';
+      tf.src = src;
+      tf.tabIndex = -1;
+      tf.setAttribute('aria-hidden', 'true');
+      tf.loading = 'lazy';
+
+      const label = document.createElement('div');
+      label.className = 'thumb-label';
+      label.textContent = `${i + 1}`;
+
+      fw.appendChild(tf);
+      thumb.appendChild(fw);
+      thumb.appendChild(label);
+      thumb.addEventListener('click', () => goTo(i));
+      strip.appendChild(thumb);
+    });
+  }
+
+  // ── Keyboard navigation ──────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'IFRAME') return;
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault(); goTo(current - 1); break;
+      case 'ArrowRight':
+      case 'ArrowDown':
+      case ' ':
+        e.preventDefault(); goTo(current + 1); break;
+      case 'Home':
+        e.preventDefault(); goTo(0); break;
+      case 'End':
+        e.preventDefault(); goTo(TOTAL - 1); break;
+      case 'f':
+      case 'F':
+        toggleFullscreen(); break;
+    }
+  });
+
+  // ── Button handlers ──────────────────────────────────
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+  arrowPrev.addEventListener('click', () => goTo(current - 1));
+  arrowNext.addEventListener('click', () => goTo(current + 1));
+
+  // ── Fullscreen ───────────────────────────────────────
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen();
+    }
+  }
+  fsBtn.addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', () => {
+    const isFs = !!document.fullscreenElement;
+    fsEnter.style.display = isFs ? 'none' : '';
+    fsExit.style.display  = isFs ? '' : 'none';
+    scaleSlide();
+  });
+
+  // ── Resize ───────────────────────────────────────────
+  const ro = new ResizeObserver(scaleSlide);
+  ro.observe(stage);
+
+  // ── Init ────────────────────────────────────────────
+  buildStrip();
+  goTo(0, true);
+  scaleSlide();
+</script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>StoreFactory Pitch Deck - Use of Investment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0A0A0A;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: #0A0A0A;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Subtle Grid Pattern */
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0L1 40' stroke='%23FFFFFF' stroke-opacity='0.03' stroke-width='1'/%3E%3Cpath d='M0 1L40 1' stroke='%23FFFFFF' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            padding: 50px 80px 80px 80px;
+        }
+
+        .header-section {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-tag {
+            font-size: 14px;
+            color: #E91E8C;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            display: inline-block;
+            background: rgba(233, 30, 140, 0.1);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .slide-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin: 0;
+            color: white;
+            line-height: 1.1;
+        }
+
+        /* Main Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 60px;
+            flex: 1;
+        }
+
+        /* Left Column: Chart */
+        .chart-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            border: 1px solid #262626;
+            padding: 20px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+        }
+
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .total-label {
+            font-size: 14px;
+            color: #A3A3A3;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .total-amount {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
+
+        /* Right Column: Content */
+        .details-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Allocation List */
+        .allocation-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .allocation-card {
+            background-color: #111111;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s;
+        }
+
+        .allocation-card:hover {
+            transform: translateY(-2px);
+            border-color: #404040;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-pink {
+            background-color: #E91E8C;
+            box-shadow: 0 0 10px rgba(233, 30, 140, 0.3);
+        }
+
+        .dot-purple {
+            background-color: #7B2FBE;
+            box-shadow: 0 0 10px rgba(123, 47, 190, 0.3);
+        }
+
+        .dot-blue {
+            background-color: #5B4FE8;
+            box-shadow: 0 0 10px rgba(91, 79, 232, 0.3);
+        }
+
+        .dot-white {
+            background-color: #E5E5E5;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .alloc-info {
+            flex: 1;
+        }
+
+        .alloc-title {
+            font-size: 13px;
+            color: #A3A3A3;
+            margin: 0 0 4px 0;
+            font-weight: 500;
+        }
+
+        .alloc-values {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .alloc-percent {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .alloc-amount {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timeline-container {
+            display: flex;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* Connecting Line */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #262626;
+            z-index: 0;
+        }
+
+        .timeline-card {
+            flex: 1;
+            background-color: #111111;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timeline-marker {
+            width: 12px;
+            height: 12px;
+            background-color: #0A0A0A;
+            border: 2px solid #7B2FBE;
+            border-radius: 50%;
+            position: absolute;
+            top: -26px;
+            /* Align with line */
+            left: 20px;
+            z-index: 2;
+        }
+
+        /* Adjust marker position relative to container padding */
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            /* Visual line alignment */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background-color: #111;
+            border: 2px solid #5B4FE8;
+            border-radius: 50%;
+            z-index: 2;
+            display: none;
+            /* Using custom styled markers instead */
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: rgba(91, 79, 232, 0.1);
+            color: #5B4FE8;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            align-self: flex-start;
+            border: 1px solid rgba(91, 79, 232, 0.2);
+        }
+
+        .milestone-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 6px 0;
+        }
+
+        .milestone-desc {
+            font-size: 13px;
+            color: #A3A3A3;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Ambient Glow */
+        .glow-spot {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-left {
+            top: 100px;
+            left: -100px;
+            background-color: #E91E8C;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 16px;
+            left: 80px;
+            right: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            font-size: 12px;
+            color: #4B5563;
+            border-top: 1px solid #262626;
+            padding-top: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <!-- Background -->
+        <div class="grid-bg"></div>
+        <div class="glow-spot glow-left"></div>
+        <!-- Content -->
+        <div class="content">
+            <div class="header-section">
+                <div>
+                    <span class="section-tag">Investment Opportunity</span>
+                    <h1 class="slide-title">Raising £150,000</h1>
+                </div>
+            </div>
+            <div class="main-grid">
+                <!-- Left: Donut Chart -->
+                <div class="chart-column">
+                    <div class="chart-wrapper">
+                        <canvas id="fundsChart"></canvas>
+                        <div class="chart-center-text">
+                            <p class="total-label">Total Ask</p>
+                            <p class="total-amount">£150k</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right: Details -->
+                <div class="details-column">
+                    <!-- Breakdown Cards -->
+                    <div>
+                        <div class="section-header">
+                            <i class="fas fa-chart-pie" style="color: #E91E8C; margin-right: 10px;"></i>
+                            Use of Funds
+                        </div>
+                        <div class="allocation-list">
+                            <!-- Item 1 -->
+                            <div class="allocation-card">
+                                <div class="color-dot dot-pink"></div>
+                                <div class="alloc-info">
+                                    <p class="alloc-title">Product Development</p>
+                                    <div class="alloc-values">
+                                        <span class="alloc-percent">40%</span>
+                                        <span class="alloc-amount">£60,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Item 2 -->
+                            <div class="allocation-card">
+                                <div class="color-dot dot-purple"></div>
+                                <div class="alloc-info">
+                                    <p class="alloc-title">Marketing &amp; Acquisition</p>
+                                    <div class="alloc-values">
+                                        <span class="alloc-percent">30%</span>
+                                        <span class="alloc-amount">£45,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Item 3 -->
+                            <div class="allocation-card">
+                                <div class="color-dot dot-blue"></div>
+                                <div class="alloc-info">
+                                    <p class="alloc-title">Infrastructure &amp; Ops</p>
+                                    <div class="alloc-values">
+                                        <span class="alloc-percent">20%</span>
+                                        <span class="alloc-amount">£30,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Item 4 -->
+                            <div class="allocation-card">
+                                <div class="color-dot dot-white"></div>
+                                <div class="alloc-info">
+                                    <p class="alloc-title">Legal &amp; Contingency</p>
+                                    <div class="alloc-values">
+                                        <span class="alloc-percent">10%</span>
+                                        <span class="alloc-amount">£15,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Timeline -->
+                    <div class="timeline-section">
+                        <div class="section-header">
+                            <i class="fas fa-flag-checkered" style="color: #5B4FE8; margin-right: 10px;"></i>
+                            Execution Roadmap
+                        </div>
+                        <div class="timeline-container">
+                            <!-- Milestone 1 -->
+                            <div class="timeline-card">
+                                <span class="time-badge">Month 1-3</span>
+                                <h4 class="milestone-title">Full Commercial Launch</h4>
+                                <p class="milestone-desc">Transition from beta, enable paid subscriptions, and activate
+                                    marketing channels.</p>
+                            </div>
+                            <!-- Milestone 2 -->
+                            <div class="timeline-card">
+                                <span class="time-badge">Month 4-6</span>
+                                <h4 class="milestone-title">Reach 150 Customers</h4>
+                                <p class="milestone-desc">Validate unit economics and optimize the AARRR funnel for
+                                    scale.</p>
+                            </div>
+                            <!-- Milestone 3 -->
+                            <div class="timeline-card">
+                                <span class="time-badge">Month 7-12</span>
+                                <h4 class="milestone-title">Break-Even &amp; Series A</h4>
+                                <p class="milestone-desc">Achieve cash flow positive operations and prepare metrics for
+                                    Series A round.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="footer">
+                <p>StoreFactory Pitch Deck</p>
+                <p>Confidential &amp; Proprietary</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const ctx = document.getElementById('fundsChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Product Dev', 'Marketing', 'Infrastructure', 'Legal'],
+                datasets: [{
+                    data: [40, 30, 20, 10],
+                    backgroundColor: [
+                        '#E91E8C', // Pink
+                        '#7B2FBE', // Purple
+                        '#5B4FE8', // Blue
+                        '#E5E5E5'  // White/Grey
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        display: false // Using custom HTML legend
+                    },
+                    tooltip: {
+                        enabled: false // Cleaner look without tooltips since we have labels
+                    }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

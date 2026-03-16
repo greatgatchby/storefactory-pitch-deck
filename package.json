@@ -1,0 +1,18 @@
+{
+  "name": "storefactory-pitch-deck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-pdf": "node generate-pitch-pdf.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.2",
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "puppeteer": "^24.39.1"
+  }
+}

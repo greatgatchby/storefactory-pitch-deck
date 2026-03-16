@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>StoreFactory Pitch Deck - Technology Stack</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0A0A0A;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: #0A0A0A;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Subtle Grid Pattern */
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0L1 40' stroke='%23FFFFFF' stroke-opacity='0.03' stroke-width='1'/%3E%3Cpath d='M0 1L40 1' stroke='%23FFFFFF' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            padding: 40px 80px 72px 80px;
+        }
+
+        .header-section {
+            margin-bottom: 16px;
+            text-align: left;
+            position: relative;
+        }
+
+        .section-tag {
+            font-size: 14px;
+            color: #5B4FE8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            display: inline-block;
+            background: rgba(91, 79, 232, 0.1);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(91, 79, 232, 0.2);
+        }
+
+        .slide-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 34px;
+            font-weight: 700;
+            margin: 0;
+            color: white;
+            line-height: 1.1;
+        }
+
+        /* Tech Stack Grid */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 10px;
+        }
+
+        .stack-card {
+            background-color: #111111;
+            border: 1px solid #262626;
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.2s;
+            overflow: hidden;
+        }
+
+        .stack-card:hover {
+            transform: translateY(-2px);
+            border-color: #404040;
+        }
+
+        /* Gradient Borders for Cards */
+        .card-frontend {
+            border-top: 4px solid #E91E8C;
+        }
+
+        .card-backend {
+            border-top: 4px solid #7B2FBE;
+        }
+
+        .card-ai {
+            border-top: 4px solid #4ADE80;
+        }
+
+        .card-ops {
+            border-top: 4px solid #5B4FE8;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #262626;
+            padding-bottom: 8px;
+        }
+
+        .header-icon {
+            font-size: 20px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .card-frontend .header-icon {
+            color: #E91E8C;
+            background: rgba(233, 30, 140, 0.1);
+        }
+
+        .card-backend .header-icon {
+            color: #7B2FBE;
+            background: rgba(123, 47, 190, 0.1);
+        }
+
+        .card-ai .header-icon {
+            color: #4ADE80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .card-ops .header-icon {
+            color: #5B4FE8;
+            background: rgba(91, 79, 232, 0.1);
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+        }
+
+        /* Tech Items List */
+        .tech-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tech-icon {
+            font-size: 16px;
+            color: #A3A3A3;
+            width: 24px;
+            text-align: center;
+        }
+
+        .tech-name {
+            font-size: 14px;
+            color: #E5E5E5;
+            font-weight: 500;
+        }
+
+        .tech-desc {
+            font-size: 11px;
+            color: #6B7280;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Scalability Badge */
+        .scalability-badge {
+            margin-top: 10px;
+            background: linear-gradient(90deg, rgba(123, 47, 190, 0.1) 0%, rgba(91, 79, 232, 0.1) 100%);
+            border: 1px solid rgba(123, 47, 190, 0.3);
+            border-radius: 12px;
+            padding: 8px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-icon {
+            color: #4ADE80;
+            font-size: 14px;
+            background: rgba(74, 222, 128, 0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .badge-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: #E5E5E5;
+            font-size: 15px;
+        }
+
+        /* Ambient Glow */
+        .glow-spot {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.05;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-right {
+            top: 50%;
+            right: -100px;
+            transform: translateY(-50%);
+            background-color: #5B4FE8;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 16px;
+            left: 80px;
+            right: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            font-size: 12px;
+            color: #4B5563;
+            border-top: 1px solid #262626;
+            padding-top: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <!-- Background -->
+        <div class="grid-bg"></div>
+        <div class="glow-spot glow-right"></div>
+        <!-- Content -->
+        <div class="content">
+            <div class="header-section">
+                <span class="section-tag">Technology Stack</span>
+                <h1 class="slide-title">Enterprise-Grade Infrastructure</h1>
+            </div>
+            <!-- Tech Grid -->
+            <div class="stack-grid">
+                <!-- Card 1: Frontend -->
+                <div class="stack-card card-frontend">
+                    <div class="card-header">
+                        <div class="header-icon"><i class="fas fa-layer-group"></i></div>
+                        <h3 class="card-title">Frontend &amp; Experience</h3>
+                    </div>
+                    <div class="tech-list">
+                        <div class="tech-item">
+                            <i class="fab fa-react tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Next.js</span>
+                                <span class="tech-desc">React Framework</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-triangle-exclamation tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Vercel</span>
+                                <span class="tech-desc">Edge Network</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-wind tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Tailwind CSS</span>
+                                <span class="tech-desc">Styling Engine</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-mobile-alt tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Responsive</span>
+                                <span class="tech-desc">Mobile First</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2: Backend -->
+                <div class="stack-card card-backend">
+                    <div class="card-header">
+                        <div class="header-icon"><i class="fas fa-server"></i></div>
+                        <h3 class="card-title">Backend &amp; Data</h3>
+                    </div>
+                    <div class="tech-list">
+                        <div class="tech-item">
+                            <i class="fas fa-box-open tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Medusa</span>
+                                <span class="tech-desc">Headless Commerce</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-cloud tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Render</span>
+                                <span class="tech-desc">Service Hosting</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-database tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Supabase</span>
+                                <span class="tech-desc">PostgreSQL DB</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-bolt tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Redis</span>
+                                <span class="tech-desc">Caching Layer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3: AI & Services -->
+                <div class="stack-card card-ai">
+                    <div class="card-header">
+                        <div class="header-icon"><i class="fas fa-brain"></i></div>
+                        <h3 class="card-title">AI &amp; Core Services</h3>
+                    </div>
+                    <div class="tech-list">
+                        <div class="tech-item">
+                            <i class="fas fa-robot tech-icon"></i>
+                            <div>
+                                <span class="tech-name">OpenAI API</span>
+                                <span class="tech-desc">Store Generation</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-atom tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Anthropic</span>
+                                <span class="tech-desc">Claude Models</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-stripe tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Stripe</span>
+                                <span class="tech-desc">Payments &amp; Subs</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-envelope tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Resend</span>
+                                <span class="tech-desc">Transactional Email</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4: Ops & Growth -->
+                <div class="stack-card card-ops">
+                    <div class="card-header">
+                        <div class="header-icon"><i class="fas fa-cogs"></i></div>
+                        <h3 class="card-title">Operations &amp; Growth</h3>
+                    </div>
+                    <div class="tech-list">
+                        <div class="tech-item">
+                            <i class="fas fa-address-card tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Attio</span>
+                                <span class="tech-desc">CRM</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-chart-line tech-icon"></i>
+                            <div>
+                                <span class="tech-name">PostHog</span>
+                                <span class="tech-desc">Product Analytics</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-discord tech-icon"></i>
+                            <div>
+                                <span class="tech-name">Discord</span>
+                                <span class="tech-desc">Community</span>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-check-square tech-icon"></i>
+                            <div>
+                                <span class="tech-name">ClickUp</span>
+                                <span class="tech-desc">Project Mgmt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom Badge -->
+            <div class="scalability-badge">
+                <div class="badge-item">
+                    <div class="badge-icon"><i class="fas fa-check"></i></div>
+                    <span class="badge-text">Cloud-Native</span>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-icon"><i class="fas fa-check"></i></div>
+                    <span class="badge-text">Globally Scalable</span>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-icon"><i class="fas fa-check"></i></div>
+                    <span class="badge-text">Zero Physical Infrastructure</span>
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="footer">
+                <p>StoreFactory Pitch Deck</p>
+                <p>Confidential &amp; Proprietary</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
