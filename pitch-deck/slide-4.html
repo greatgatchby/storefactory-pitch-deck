@@ -1,324 +1,197 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>StoreFactory Pitch Deck - Solution</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #0A0A0A;
-            font-family: 'Inter', sans-serif;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1280, initial-scale=1" />
+<title>StoreFactory — 04 · Solution</title>
+<link rel="stylesheet" href="deck.css" />
+<style>
+  .split { display: grid; grid-template-columns: 1fr 1.08fr; gap: 22px; flex: 1; min-height: 0; }
 
-        .slide-container {
-            width: 1280px;
-            height: 720px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            background-color: #0A0A0A;
-            color: white;
-            overflow: hidden;
-        }
+  /* ── Left: the three steps ─────────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 12px; }
+  .step {
+    display: flex; gap: 14px;
+    padding: 15px 17px;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: var(--panel);
+    flex: 1;
+  }
+  .step .num {
+    flex-shrink: 0;
+    width: 27px; height: 27px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: 12.5px; font-weight: 700;
+    background: linear-gradient(140deg, var(--pink), var(--violet));
+    color: #fff;
+  }
+  .step h3 { font-size: 15.5px; margin-bottom: 5px; }
+  .step p { font-size: 12.5px; line-height: 1.5; color: var(--text-2); }
 
-        /* Subtle Grid Pattern */
-        .grid-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0L1 40' stroke='%23FFFFFF' stroke-opacity='0.03' stroke-width='1'/%3E%3Cpath d='M0 1L40 1' stroke='%23FFFFFF' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
-            z-index: 0;
-        }
+  .after {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 15px 17px;
+    border-radius: var(--r);
+    border: 1px solid rgba(53, 214, 164, 0.28);
+    background: linear-gradient(160deg, var(--good-wash), transparent 70%), var(--panel);
+  }
+  .after .num { background: linear-gradient(140deg, var(--good), #1FA37B); font-size: 16px; }
+  .after h3 { color: var(--good); }
 
-        .content {
-            flex: 1;
-            display: flex;
-            z-index: 10;
-            padding: 48px 80px 92px 80px;
-            gap: 60px;
-            align-items: center;
-        }
+  /* ── Right: the composer mock ──────────────────────── */
+  .mock {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--ink-2);
+    overflow: hidden;
+  }
+  .mock .bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    background: rgba(255, 255, 255, 0.022);
+  }
+  .mock .bar i { width: 8px; height: 8px; border-radius: 50%; background: #2C2C36; }
+  .mock .bar .t { margin-left: 8px; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
 
-        .left-column {
-            flex: 1.08;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
+  .mock .pane { padding: 16px; display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; }
+  .mock .pane .cost-note { margin-bottom: 2px; }
 
-        .solution-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+  .brief {
+    border: 1px solid rgba(224, 56, 159, 0.32);
+    border-radius: 12px;
+    background: rgba(224, 56, 159, 0.055);
+    padding: 13px 15px;
+  }
+  .brief .who { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--pink); margin-bottom: 7px; }
+  .brief p { font-size: 14px; line-height: 1.5; color: var(--text); }
 
-        .right-column {
-            flex: 1.12;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
+  .plan { flex: 1; display: flex; flex-direction: column; gap: 7px; min-height: 0; }
+  .plan .who { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet-lt); margin-bottom: 1px; }
+  .plan .line {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12.5px; color: var(--text-2);
+  }
+  .plan .line svg { width: 14px; height: 14px; stroke: var(--good); fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .plan .line b { color: var(--text); font-weight: 600; }
 
-        .section-tag {
-            font-size: 14px;
-            color: #7B2FBE;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 12px;
-            display: inline-block;
-            background: rgba(123, 47, 190, 0.1);
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: 1px solid rgba(123, 47, 190, 0.2);
-            width: fit-content;
-        }
+  .cost-note {
+    margin-top: auto;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px dashed var(--line);
+    font-size: 11.5px; line-height: 1.5; color: var(--muted);
+  }
+  .cost-note b { color: var(--text-2); font-weight: 600; }
 
-        .slide-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 40px;
-            font-weight: 700;
-            margin: 0 0 22px 0;
-            color: white;
-            line-height: 1.1;
-        }
-
-        .highlight-text {
-            color: #E91E8C;
-        }
-
-        .solution-item {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 0;
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid transparent;
-            transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-
-        .solution-item:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.1);
-            transform: translateX(10px);
-        }
-
-        .icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 20px;
-        }
-
-        .icon-ai {
-            background-color: rgba(233, 30, 140, 0.1);
-            color: #E91E8C;
-            border: 1px solid rgba(233, 30, 140, 0.2);
-        }
-
-        .icon-core {
-            background-color: rgba(123, 47, 190, 0.1);
-            color: #7B2FBE;
-            border: 1px solid rgba(123, 47, 190, 0.2);
-        }
-
-        .icon-ops {
-            background-color: rgba(91, 79, 232, 0.1);
-            color: #5B4FE8;
-            border: 1px solid rgba(91, 79, 232, 0.2);
-        }
-
-        .text-content h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            margin: 0 0 6px 0;
-            color: white;
-        }
-
-        .text-content p {
-            font-size: 14px;
-            color: #A3A3A3;
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        .mockup-container {
-            width: 100%;
-            background: #111;
-            border-radius: 16px;
-            border: 1px solid #333;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            position: relative;
-            transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
-            transition: transform 0.5s ease;
-        }
-
-        .mockup-container:hover {
-            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
-        }
-
-        .browser-bar {
-            height: 32px;
-            background: #222;
-            border-bottom: 1px solid #333;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            gap: 8px;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .dot-red {
-            background: #FF5F56;
-        }
-
-        .dot-yellow {
-            background: #FFBD2E;
-        }
-
-        .dot-green {
-            background: #27C93F;
-        }
-
-        .address-bar {
-            height: 20px;
-            background: #333;
-            border-radius: 4px;
-            flex: 1;
-            margin-left: 16px;
-        }
-
-        .mockup-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-
-        .glow-spot {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.15;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .glow-right {
-            top: 50%;
-            right: -100px;
-            transform: translateY(-50%);
-            background-color: #5B4FE8;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 30px;
-            left: 80px;
-            right: 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-            font-size: 12px;
-            color: #4B5563;
-            border-top: 1px solid #262626;
-            padding-top: 20px;
-        }
-    </style>
+  .mock .status {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 16px;
+    border-top: 1px solid var(--line-soft);
+    background: rgba(255, 255, 255, 0.022);
+    font-size: 11.5px;
+  }
+  .mock .status .url { color: var(--text); font-weight: 500; }
+  .mock .status .live { display: inline-flex; align-items: center; gap: 7px; color: var(--good); font-weight: 600; }
+  .mock .status .live i { width: 7px; height: 7px; border-radius: 50%; background: var(--good); box-shadow: 0 0 0 3px rgba(53, 214, 164, 0.18); }
+</style>
 </head>
-
 <body>
-    <div class="slide-container">
-        <div class="grid-bg"></div>
-        <div class="glow-spot glow-right"></div>
-        <div class="content">
-            <div class="left-column">
-                <div class="header-group">
-                    <span class="section-tag">The Solution</span>
-                    <h1 class="slide-title">AI Meets <br /><span class="highlight-text">Composable Commerce</span></h1>
-                </div>
-                <div class="solution-list">
-                    <!-- Item 1 -->
-                    <div class="solution-item">
-                        <div class="icon-box icon-ai">
-                            <i class="fas fa-wand-magic-sparkles"></i>
-                        </div>
-                        <div class="text-content">
-                            <h3>AI Storefront Editor</h3>
-                            <p>Generate, edit, and personalize storefronts in minutes using AI. No coding required, just
-                                describe what you want.</p>
-                        </div>
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="solution-item">
-                        <div class="icon-box icon-core">
-                            <i class="fas fa-cubes-stacked"></i>
-                        </div>
-                        <div class="text-content">
-                            <h3>Composable Core</h3>
-                            <p>Built on modern headless architecture. Connect to any existing ERP, CRM, or inventory
-                                system via API as you scale.</p>
-                        </div>
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="solution-item">
-                        <div class="icon-box icon-ops">
-                            <i class="fas fa-sliders"></i>
-                        </div>
-                        <div class="text-content">
-                            <h3>Simple Ops Dashboard</h3>
-                            <p>Manage products, orders, and payments from a single, intuitive dashboard designed for
-                                business owners, not devs.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="right-column">
-                <div class="mockup-container">
-                    <div class="browser-bar">
-                        <div class="dot dot-red"></div>
-                        <div class="dot dot-yellow"></div>
-                        <div class="dot dot-green"></div>
-                        <div class="address-bar"></div>
-                    </div>
-                    <img alt="StoreFactory Dashboard Interface" class="mockup-image"
-                        src="/Users/jakengatchu/piranha-studios/store-factory/public/docs/dashboard.png" />
-                </div>
-            </div>
-        </div>
-        <div class="footer">
-            <p>StoreFactory Pitch Deck</p>
-            <p>Confidential &amp; Proprietary</p>
-        </div>
-    </div>
-</body>
+<div class="slide">
+  <div class="bg"></div>
 
+  <div class="head">
+    <div class="eyebrow">The solution</div>
+    <h1 class="title">A sentence about your business,<br /><span class="accent">and the whole thing gets built.</span></h1>
+  </div>
+
+  <div class="body">
+    <div class="split">
+
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <div>
+            <h3>Describe your business</h3>
+            <p>A sentence or two is enough. Attach a logo or a product list if you have one.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <div>
+            <h3>Answer a couple of questions</h3>
+            <p>The builder asks only for what is missing, then shows you its plan before it builds anything.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <div>
+            <h3>Your site goes live</h3>
+            <p>Pages, bookings, content and domain, wired up and deployed — not a download, a running business.</p>
+          </div>
+        </div>
+        <div class="after">
+          <span class="num">&#8635;</span>
+          <div>
+            <h3>Then keep asking</h3>
+            <p>Every change afterwards is another sentence. No agency, no ticket, no redeploy to think about.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock">
+        <div class="bar">
+          <i></i><i></i><i></i>
+          <span class="t">storefactory.shop &nbsp;·&nbsp; new business</span>
+        </div>
+
+        <div class="pane">
+          <div class="brief">
+            <div class="who">The brief</div>
+            <p>&ldquo;I run a barbershop in Leeds and want customers to book their own appointments online.&rdquo;</p>
+          </div>
+
+          <div class="plan">
+            <div class="who">What gets built</div>
+            <div class="line"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"/></svg><span><b>Site</b> — home, services, about, contact</span></div>
+            <div class="line"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"/></svg><span><b>Bookings</b> — services, availability, self-serve reschedule</span></div>
+            <div class="line"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"/></svg><span><b>Content</b> — pages and posts, editable without a deploy</span></div>
+            <div class="line"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"/></svg><span><b>Marketing</b> — subscriber list on a verified sending domain</span></div>
+            <div class="line"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"/></svg><span><b>Infrastructure</b> — hosting, HTTPS, domain, backups</span></div>
+            <div class="line"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"/></svg><span><b>Shop</b> — switched on the day they start selling</span></div>
+
+            <div class="cost-note">
+              Every plan carries a monthly credit allowance, and
+              <b>most changes cost one credit</b> — iterating is a chat message,
+              not a change request.
+            </div>
+          </div>
+        </div>
+
+        <div class="status">
+          <span class="url">leedsbarbers.co.uk</span>
+          <span class="live"><i></i>Live</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="takeaway">
+      <span class="bolt"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg></span>
+      <span>The output is not a template or a repository. It is a <strong>running business</strong> — on its own domain, taking bookings and orders, that the owner can change by asking.</span>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span class="mark"><span class="blocks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>StoreFactory</span>
+    <span>Confidential &amp; proprietary</span>
+    <span class="no">04 / 16</span>
+  </div>
+</div>
+</body>
 </html>

@@ -1,352 +1,136 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>StoreFactory Pitch Deck - Problem</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #0A0A0A;
-            font-family: 'Inter', sans-serif;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1280, initial-scale=1" />
+<title>StoreFactory — 02 · Problem</title>
+<link rel="stylesheet" href="deck.css" />
+<style>
+  .needs {
+    display: flex; align-items: center; gap: 10px;
+    padding: 13px 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: rgba(255, 255, 255, 0.022);
+    flex-shrink: 0;
+  }
+  .needs .lbl { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 6px; white-space: nowrap; }
+  .needs .item {
+    flex: 1;
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12.5px; font-weight: 500; color: var(--text);
+    white-space: nowrap;
+  }
+  .needs .item svg { width: 13px; height: 13px; stroke: var(--pink); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
-        .slide-container {
-            width: 1280px;
-            height: 720px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            background-color: #0A0A0A;
-            color: white;
-            overflow: hidden;
-        }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; flex: 1; min-height: 0; }
 
-        /* Subtle Grid Pattern using SVG to avoid CSS gradients */
-        .grid-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0L1 40' stroke='%23FFFFFF' stroke-opacity='0.03' stroke-width='1'/%3E%3Cpath d='M0 1L40 1' stroke='%23FFFFFF' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
-            z-index: 0;
-        }
-
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            z-index: 10;
-            padding: 60px 80px 40px 80px;
-        }
-
-        .header-section {
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
-        .section-tag {
-            font-size: 14px;
-            color: #E91E8C;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 16px;
-            display: inline-block;
-            background: rgba(233, 30, 140, 0.1);
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: 1px solid rgba(233, 30, 140, 0.2);
-        }
-
-        .slide-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 48px;
-            font-weight: 700;
-            margin: 0 0 16px 0;
-            color: white;
-            line-height: 1.1;
-        }
-
-        .slide-subtitle {
-            font-size: 20px;
-            color: #A3A3A3;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-
-        /* Two-column gap layout */
-        .gap-layout {
-            display: flex;
-            gap: 24px;
-            flex: 1;
-            align-items: stretch;
-        }
-
-        .gap-card {
-            flex: 1;
-            background-color: #111111;
-            border: 1px solid #262626;
-            border-radius: 16px;
-            padding: 36px 32px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .gap-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-        }
-
-        .card-shopify::before { background-color: #E91E8C; }
-        .card-headless::before { background-color: #5B4FE8; }
-
-        .card-label {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 20px;
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 4px;
-            width: fit-content;
-        }
-
-        .label-shopify {
-            background: rgba(233, 30, 140, 0.1);
-            color: #E91E8C;
-            border: 1px solid rgba(233, 30, 140, 0.2);
-        }
-
-        .label-headless {
-            background: rgba(91, 79, 232, 0.1);
-            color: #5B4FE8;
-            border: 1px solid rgba(91, 79, 232, 0.2);
-        }
-
-        .card-platform {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 36px;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            color: white;
-        }
-
-        .card-verdict {
-            font-size: 22px;
-            font-weight: 600;
-            margin: 0 0 24px 0;
-        }
-
-        .verdict-shopify { color: #E91E8C; }
-        .verdict-headless { color: #5B4FE8; }
-
-        .pain-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex: 1;
-        }
-
-        .pain-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid #1e1e1e;
-            font-size: 15px;
-            color: #A3A3A3;
-            line-height: 1.4;
-        }
-
-        .pain-list li:last-child { border-bottom: none; }
-
-        .pain-icon {
-            font-size: 14px;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-        .pain-shopify .pain-icon { color: #E91E8C; }
-        .pain-headless .pain-icon { color: #5B4FE8; }
-
-        /* VS divider */
-        .vs-divider {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 0 4px;
-            flex-shrink: 0;
-        }
-
-        .vs-line {
-            width: 1px;
-            flex: 1;
-            background: #262626;
-        }
-
-        .vs-badge {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: #4B5563;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        /* Resolution bar */
-        .resolution-bar {
-            margin-top: 28px;
-            background: rgba(123, 47, 190, 0.08);
-            border: 1px solid rgba(123, 47, 190, 0.25);
-            border-radius: 12px;
-            padding: 20px 28px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .resolution-icon {
-            font-size: 22px;
-            color: #7B2FBE;
-            flex-shrink: 0;
-        }
-
-        .resolution-text {
-            font-size: 18px;
-            color: #E5E5E5;
-            font-weight: 500;
-            margin: 0;
-        }
-
-        .resolution-highlight {
-            color: white;
-            font-weight: 700;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 30px;
-            left: 80px;
-            right: 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-            font-size: 12px;
-            color: #4B5563;
-            border-top: 1px solid #262626;
-            padding-top: 20px;
-        }
-
-        /* Ambient Glow */
-        .glow-spot {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.1;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .glow-top-right {
-            top: -300px;
-            right: -200px;
-            background-color: #7B2FBE;
-        }
-
-        .glow-bottom-left {
-            bottom: -300px;
-            left: -200px;
-            background-color: #E91E8C;
-        }
-    </style>
+  .opt { display: flex; flex-direction: column; }
+  .opt .tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 9px;
+  }
+  .opt h3 { font-size: 18px; margin-bottom: 4px; }
+  .opt .cost {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+    color: var(--pink); margin-bottom: 13px;
+  }
+  .opt ul { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-top: 2px; }
+  .opt li { display: flex; gap: 9px; font-size: 12.5px; line-height: 1.45; color: var(--text-2); }
+  .opt li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 5px; height: 5px; margin-top: 6px;
+    border-radius: 1px;
+    background: var(--faint);
+    transform: rotate(45deg);
+  }
+  .opt .verdict {
+    margin-top: auto; padding-top: 13px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 12px; font-weight: 600; color: var(--text);
+  }
+  .opt .verdict span { color: var(--muted); font-weight: 400; }
+</style>
 </head>
-
 <body>
-    <div class="slide-container">
-        <div class="grid-bg"></div>
-        <div class="glow-spot glow-top-right"></div>
-        <div class="glow-spot glow-bottom-left"></div>
-        <div class="content">
-            <div class="header-section">
-                <p class="section-tag">The Problem</p>
-                <h1 class="slide-title">A Clear Gap in the Market</h1>
-                <p class="slide-subtitle">Growing brands are trapped between two bad options. There is no affordable headless solution.</p>
-            </div>
-            <div class="gap-layout">
-                <!-- Left: Shopify -->
-                <div class="gap-card card-shopify">
-                    <span class="card-label label-shopify">Option A</span>
-                    <h2 class="card-platform">Shopify</h2>
-                    <p class="card-verdict verdict-shopify">Easy, but rigid</p>
-                    <ul class="pain-list pain-shopify">
-                        <li><i class="fas fa-times pain-icon"></i>Locked into Shopify's templates and ecosystem</li>
-                        <li><i class="fas fa-times pain-icon"></i>Expensive app fees accumulate quickly</li>
-                        <li><i class="fas fa-times pain-icon"></i>No real control over checkout, data, or backend</li>
-                        <li><i class="fas fa-times pain-icon"></i>Outgrown by any brand that needs custom flows</li>
-                    </ul>
-                </div>
+<div class="slide">
+  <div class="bg"></div>
 
-                <!-- VS divider -->
-                <div class="vs-divider">
-                    <div class="vs-line"></div>
-                    <div class="vs-badge">VS</div>
-                    <div class="vs-line"></div>
-                </div>
+  <div class="head">
+    <div class="eyebrow">The problem</div>
+    <h1 class="title">Getting a small business online is still <span class="accent">a stack of subscriptions</span> — or an agency invoice.</h1>
+  </div>
 
-                <!-- Right: Headless -->
-                <div class="gap-card card-headless">
-                    <span class="card-label label-headless">Option B</span>
-                    <h2 class="card-platform">Headless Build</h2>
-                    <p class="card-verdict verdict-headless">Powerful, but expensive</p>
-                    <ul class="pain-list pain-headless">
-                        <li><i class="fas fa-times pain-icon"></i>Requires a dedicated engineering team to build</li>
-                        <li><i class="fas fa-times pain-icon"></i>Months to launch, £50K–£200K+ in dev costs</li>
-                        <li><i class="fas fa-times pain-icon"></i>Ongoing maintenance burden after launch</li>
-                        <li><i class="fas fa-times pain-icon"></i>Out of reach for 99% of growing businesses</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="resolution-bar">
-                <i class="fas fa-bullseye resolution-icon"></i>
-                <p class="resolution-text"><span class="resolution-highlight">StoreFactory</span> — headless ecommerce infrastructure without the dev team. Launch a fully customized store in minutes.</p>
-            </div>
-        </div>
-        <div class="footer">
-            <p>StoreFactory Pitch Deck</p>
-            <p>Confidential &amp; Proprietary</p>
-        </div>
+  <div class="body">
+
+    <div class="needs">
+      <span class="lbl">A real business needs</span>
+      <span class="item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>A website</span>
+      <span class="item"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>Bookings</span>
+      <span class="item"><svg viewBox="0 0 24 24"><path d="M6 2 3 7v13a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7l-3-5z"/><path d="M3 7h18M16 11a4 4 0 0 1-8 0"/></svg>A shop</span>
+      <span class="item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15h6"/></svg>Content</span>
+      <span class="item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg>A domain</span>
+      <span class="item"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="m2 7 10 6 10-6"/></svg>Email marketing</span>
     </div>
-</body>
 
+    <div class="cols">
+
+      <div class="card opt">
+        <span class="tag">Option A · Do it yourself</span>
+        <h3>Five tools, five logins</h3>
+        <div class="cost">£120 – £250 / month</div>
+        <ul>
+          <li>Site builder, booking app, shop platform, mail tool and registrar, each billed separately</li>
+          <li>Nothing shares a customer record — the same person is five different rows</li>
+          <li>Shopify and Wix take a cut of every sale, and the app store adds more</li>
+          <li>Every integration is the owner's problem, forever</li>
+        </ul>
+        <div class="verdict">Cheap to start. <span>Expensive and brittle by month six.</span></div>
+      </div>
+
+      <div class="card opt">
+        <span class="tag">Option B · Hire it out</span>
+        <h3>An agency build</h3>
+        <div class="cost">£5,000 – £50,000 upfront</div>
+        <ul>
+          <li>Six to twelve weeks before anything is live</li>
+          <li>Out of reach for the corner shop, the clinic and the maker</li>
+          <li>Every change afterwards is a quote, a ticket and a wait</li>
+          <li>The business does not own the ability to change its own site</li>
+        </ul>
+        <div class="verdict">Exactly what they want. <span>At a price almost none of them can pay.</span></div>
+      </div>
+
+      <div class="card opt">
+        <span class="tag">Option C · AI site builders</span>
+        <h3>A beautiful page</h3>
+        <div class="cost">Minutes to a demo</div>
+        <ul>
+          <li>Generates a landing page, then hands back a codebase</li>
+          <li>No bookings, no orders, no customers, no email list</li>
+          <li>Deploying, domains and payments are still yours to solve</li>
+          <li>Nothing to open on Monday morning to run the business</li>
+        </ul>
+        <div class="verdict">A website, not a business. <span>The demo is the whole product.</span></div>
+      </div>
+
+    </div>
+
+    <div class="takeaway">
+      <span class="bolt"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg></span>
+      <span>The gap is not <strong>generating a website</strong>. It is everything that has to exist behind one — and staying able to change it without hiring anybody.</span>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span class="mark"><span class="blocks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>StoreFactory</span>
+    <span>Confidential &amp; proprietary</span>
+    <span class="no">02 / 16</span>
+  </div>
+</div>
+</body>
 </html>
