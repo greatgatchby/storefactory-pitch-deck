@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1280, initial-scale=1" />
+<title>StoreFactory — 16 · Close</title>
+<link rel="stylesheet" href="deck.css" />
+<style>
+  .close { position: relative; z-index: 2; width: 100%; padding: 0 90px; text-align: center; }
+
+  .lockup { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 34px; }
+  .lockup svg { width: 46px; height: 46px; }
+  .lockup .word { font-family: 'Space Grotesk', 'Inter', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.025em; }
+
+  .close h1 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: 52px; line-height: 1.12; font-weight: 700; letter-spacing: -0.035em;
+    margin-bottom: 20px;
+  }
+  .close h1 .accent {
+    background: linear-gradient(100deg, var(--pink), var(--violet-lt));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .close .lede { font-size: 17px; line-height: 1.6; color: var(--text-2); max-width: 800px; margin: 0 auto 40px; }
+
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 1000px; margin: 0 auto 38px; text-align: left; }
+  .three .c { padding: 16px 18px; }
+  .three .c .h { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+  .three .c .h svg { width: 15px; height: 15px; fill: none; stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+  .three .c .h b { font-size: 13.5px; font-weight: 700; }
+  .three .c p { font-size: 12px; line-height: 1.5; color: var(--text-2); }
+  .three .c1 .h svg { stroke: var(--good); } .three .c1 .h b { color: var(--good); }
+  .three .c2 .h svg { stroke: var(--pink); } .three .c2 .h b { color: var(--pink); }
+  .three .c3 .h svg { stroke: var(--violet-lt); } .three .c3 .h b { color: var(--violet-lt); }
+
+  .cta {
+    display: inline-flex; align-items: center; gap: 0;
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(224, 56, 159, 0.32);
+    background: linear-gradient(90deg, rgba(224, 56, 159, 0.13), rgba(124, 58, 237, 0.13));
+  }
+  .cta .part { padding: 15px 26px; text-align: left; }
+  .cta .part + .part { border-left: 1px solid rgba(224, 56, 159, 0.22); }
+  .cta .k { font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .cta .v { font-size: 15px; font-weight: 600; color: var(--text); }
+  .cta .v.pinked { color: var(--pink); }
+
+  .close-foot {
+    position: absolute; bottom: 30px; left: 0; right: 0; z-index: 2;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 64px;
+    font-size: 11.5px; letter-spacing: 0.06em; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="slide is-hero">
+  <div class="bg"></div>
+
+  <div class="close">
+    <div class="lockup">
+      <svg viewBox="0 0 100 100" aria-label="StoreFactory">
+        <rect x="24" y="12" width="26" height="26" rx="6" fill="#D849A8" />
+        <rect x="24" y="42" width="26" height="26" rx="6" fill="#CD1A72" />
+        <rect x="54" y="42" width="26" height="26" rx="6" fill="#CD1A72" />
+        <rect x="24" y="72" width="26" height="26" rx="6" fill="#7C22E0" />
+        <rect x="54" y="72" width="26" height="26" rx="6" fill="#7C22E0" />
+        <rect x="84" y="72" width="26" height="26" rx="6" fill="#7C22E0" />
+      </svg>
+      <span class="word">StoreFactory</span>
+    </div>
+
+    <h1>Every small business deserves<br />the stack <span class="accent">only big ones can afford.</span></h1>
+
+    <p class="lede">
+      We have made the six-week agency build into something a merchant can ask
+      for in a sentence and keep changing forever — and we have done it at a
+      price a barbershop can pay.
+    </p>
+
+    <div class="three">
+      <div class="card c c1">
+        <div class="h">
+          <svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"/></svg>
+          <b>The product is done</b>
+        </div>
+        <p>Live in open beta with real merchants trading, plans and billing switched on, and no build risk left to fund.</p>
+      </div>
+      <div class="card c c2">
+        <div class="h">
+          <svg viewBox="0 0 24 24"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg>
+          <b>The timing is now</b>
+        </div>
+        <p>Agentic models, API-first commerce and cheap isolated compute all arrived at once. That window is open, and it is not wide.</p>
+      </div>
+      <div class="card c c3">
+        <div class="h">
+          <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20V7"/></svg>
+          <b>The ask is small</b>
+        </div>
+        <p>£150k to reach roughly 350 paying merchants, break even inside twelve months, and raise the next round from data.</p>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div class="part">
+        <div class="k">Raising</div>
+        <div class="v pinked">£150,000 · Angel round</div>
+      </div>
+      <div class="part">
+        <div class="k">Contact</div>
+        <div class="v">Jake Ngatchu · jake@storefactory.shop</div>
+      </div>
+      <div class="part">
+        <div class="k">Try it</div>
+        <div class="v">storefactory.shop</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="close-foot">
+    <span>Piranha Studios Ltd</span>
+    <span>Confidential &amp; proprietary</span>
+  </div>
+</div>
+</body>
+</html>

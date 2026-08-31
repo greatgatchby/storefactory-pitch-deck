@@ -1,0 +1,374 @@
+/* ============================================================================
+   StoreFactory pitch deck — shared design system.
+
+   Every slide is a standalone 1280x720 document that links this file, so the
+   type scale, palette and chrome are defined once instead of being re-typed
+   (and re-drifted) sixteen times. Slide-specific CSS lives in the slide's own
+   <style> block and should only ever be layout, never a redefinition of the
+   things below.
+
+   Palette is taken from the logo: the block stack runs pink -> magenta ->
+   violet, so the deck uses the same three as its accent ramp.
+   ========================================================================= */
+
+/* ── Fonts ──────────────────────────────────────────────────────────────── */
+/* Self-hosted latin subsets (variable, one file per family) rather than a
+   Google Fonts <link>. The PDF is rendered headless in CI, and a webfont that
+   is still in flight when Puppeteer prints produces a deck set in Times — the
+   one rendering bug nobody notices until an investor opens the attachment. */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  src: url('fonts/inter.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: block;
+  src: url('fonts/space-grotesk.woff2') format('woff2');
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --ink:        #08080B;
+  --ink-2:      #0D0D11;
+  --panel:      #111116;
+  --panel-2:    #16161C;
+  --line:       #22222C;
+  --line-soft:  #1A1A22;
+
+  /* Type */
+  --text:       #FAFAFC;
+  --text-2:     #B4B4C2;
+  --muted:      #7C7C8C;
+  --faint:      #55555F;
+
+  /* Brand ramp (logo blocks, top to bottom) */
+  --pink:       #E0389F;
+  --magenta:    #D0176F;
+  --violet:     #7C3AED;
+  --violet-lt:  #9B6BFF;
+
+  /* Semantic */
+  --good:       #35D6A4;
+  --warn:       #F5A524;
+
+  /* Tinted washes */
+  --pink-wash:   rgba(224, 56, 159, 0.10);
+  --violet-wash: rgba(124, 58, 237, 0.10);
+  --good-wash:   rgba(53, 214, 164, 0.10);
+
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 20px;
+}
+
+/* ── Page frame ─────────────────────────────────────────────────────────── */
+html, body {
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+body {
+  font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.slide {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  padding: 46px 64px 0;
+}
+
+/* Full-bleed variant for the cover and closer. */
+.slide.is-hero { padding: 0; justify-content: center; align-items: center; text-align: center; }
+
+/* ── Ambient background ─────────────────────────────────────────────────── */
+/* Dot grid + two soft brand glows. Drawn on ::before/::after of a dedicated
+   element so slide content never has to fight z-index with the decoration. */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, #000 30%, transparent 100%);
+          mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, #000 30%, transparent 100%);
+}
+.bg::before,
+.bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+}
+.bg::before {
+  width: 620px; height: 620px;
+  background: var(--violet);
+  opacity: 0.16;
+  top: -300px; left: -220px;
+}
+.bg::after {
+  width: 560px; height: 560px;
+  background: var(--magenta);
+  opacity: 0.13;
+  bottom: -300px; right: -200px;
+}
+
+/* A hairline of brand colour along the very top of every slide. */
+.slide::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--pink), var(--magenta) 45%, var(--violet));
+  z-index: 5;
+}
+
+/* ── Slide header ───────────────────────────────────────────────────────── */
+.head {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 12px;
+}
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--pink), var(--violet));
+}
+
+h1.title {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: 40px;
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  color: var(--text);
+}
+
+.title .accent {
+  background: linear-gradient(100deg, var(--pink), var(--violet-lt));
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subhead {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-2);
+  max-width: 940px;
+  margin-top: 10px;
+}
+
+/* ── Slide body ─────────────────────────────────────────────────────────── */
+.body {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────── */
+.foot {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  height: 52px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: #6E6E7C;
+}
+.foot .mark { display: flex; align-items: center; gap: 9px; font-weight: 600; color: var(--muted); }
+/* The logo's stair of blocks, at 4px. Nine cells; the three that are empty in
+   the mark are simply left transparent so the grid stays a plain 3x3. */
+.foot .mark .blocks { display: grid; grid-template-columns: repeat(3, 4px); gap: 1.5px; }
+.foot .mark .blocks i { width: 4px; height: 4px; border-radius: 1px; background: transparent; }
+.foot .mark .blocks i:nth-child(1) { background: var(--pink); }
+.foot .mark .blocks i:nth-child(4),
+.foot .mark .blocks i:nth-child(5) { background: var(--magenta); }
+.foot .mark .blocks i:nth-child(7),
+.foot .mark .blocks i:nth-child(8),
+.foot .mark .blocks i:nth-child(9) { background: var(--violet); }
+.foot .no { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--muted); }
+
+/* ── Cards ──────────────────────────────────────────────────────────────── */
+.card {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 20px 22px;
+  overflow: hidden;
+}
+.card.tint-pink   { background: linear-gradient(160deg, var(--pink-wash), transparent 70%), var(--panel); border-color: rgba(224, 56, 159, 0.28); }
+.card.tint-violet { background: linear-gradient(160deg, var(--violet-wash), transparent 70%), var(--panel); border-color: rgba(124, 58, 237, 0.30); }
+.card.tint-good   { background: linear-gradient(160deg, var(--good-wash), transparent 70%), var(--panel); border-color: rgba(53, 214, 164, 0.28); }
+
+.card h3 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 7px;
+}
+.card p {
+  font-size: 13px;
+  line-height: 1.52;
+  color: var(--text-2);
+}
+
+/* Grids */
+.grid   { display: grid; gap: 16px; }
+.g-2    { grid-template-columns: repeat(2, 1fr); }
+.g-3    { grid-template-columns: repeat(3, 1fr); }
+.g-4    { grid-template-columns: repeat(4, 1fr); }
+.fill   { flex: 1; min-height: 0; }
+
+/* ── Icon chip ──────────────────────────────────────────────────────────── */
+.chip {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+.chip svg { width: 17px; height: 17px; stroke: var(--pink); fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.chip.v  { background: var(--violet-wash); border-color: rgba(124, 58, 237, 0.30); }
+.chip.v svg { stroke: var(--violet-lt); }
+.chip.g  { background: var(--good-wash); border-color: rgba(53, 214, 164, 0.28); }
+.chip.g svg { stroke: var(--good); }
+
+/* ── Stats ──────────────────────────────────────────────────────────────── */
+.stat-n {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-l {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 7px;
+}
+.stat-sub { font-size: 12px; color: var(--text-2); margin-top: 8px; line-height: 1.45; }
+
+/* ── Small type helpers ─────────────────────────────────────────────────── */
+.kicker {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.mono { font-variant-numeric: tabular-nums; }
+.pink { color: var(--pink); }
+.viol { color: var(--violet-lt); }
+.good { color: var(--good); }
+.dim  { color: var(--muted); }
+
+/* ── Bottom takeaway banner ─────────────────────────────────────────────── */
+.takeaway {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-radius: var(--r);
+  border: 1px solid rgba(224, 56, 159, 0.26);
+  background: linear-gradient(90deg, rgba(224, 56, 159, 0.11), rgba(124, 58, 237, 0.11));
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+.takeaway strong { color: var(--text); font-weight: 600; }
+.takeaway .bolt {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(140deg, var(--pink), var(--violet));
+}
+.takeaway .bolt svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── Pills / tags ───────────────────────────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.pill.on { border-color: rgba(53, 214, 164, 0.35); background: var(--good-wash); color: var(--good); }
+.pill.soon { border-color: rgba(245, 165, 36, 0.30); background: rgba(245, 165, 36, 0.08); color: var(--warn); }
+
+/* ── Rules ──────────────────────────────────────────────────────────────── */
+.hr { height: 1px; background: var(--line-soft); border: 0; }
+
+/* ── Print / PDF ────────────────────────────────────────────────────────── */
+/* Chrome's PDF rasteriser paints the backing rectangle of a
+   `background-clip: text` gradient instead of clipping it, which puts a faint
+   box and underline around every accented headline in the exported deck. The
+   screen deck keeps the gradient; print falls back to a solid brand pink,
+   which is indistinguishable at a glance and free of the artefact. */
+@media print {
+  .title .accent,
+  .cover h1 .accent,
+  .close h1 .accent,
+  .ask .amount {
+    background: none !important;
+    -webkit-text-fill-color: var(--pink) !important;
+    color: var(--pink) !important;
+  }
+}

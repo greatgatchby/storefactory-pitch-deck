@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import { PDFDocument } from 'pdf-lib';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readdirSync, writeFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,7 +8,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const slideDir = resolve(__dirname, './pitch-deck');
 const outPath = resolve(__dirname, './pitch-deck/pitch-deck.pdf');
 
-const SLIDE_COUNT = 15;
+// Discovered from disk rather than hard-coded, so adding or removing a slide
+// does not silently truncate the PDF at whatever the constant used to say.
+const SLIDE_COUNT = readdirSync(slideDir)
+  .map((f) => /^slide-(\d+)\.html$/.exec(f))
+  .filter(Boolean)
+  .map((m) => Number(m[1]))
+  .reduce((max, n) => Math.max(max, n), 0);
+
 const WIDTH = 1280;
 const HEIGHT = 720;
 

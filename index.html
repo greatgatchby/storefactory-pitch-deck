@@ -8,17 +8,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #0A0A0A;
-      --surface:  #141414;
-      --border:   #222;
-      --accent:   #E91E8C;
-      --accent2:  #6C63FF;
-      --text:     #fff;
-      --muted:    #666;
+      --bg:       #08080B;
+      --surface:  #111116;
+      --border:   #22222C;
+      --accent:   #E0389F;
+      --accent2:  #7C3AED;
+      --text:     #FAFAFC;
+      --muted:    #7C7C8C;
       --thumb-w:  160px;
       --thumb-h:  90px;
       --nav-h:    56px;
-      --strip-h:  120px;
+      --strip-h:  132px;
     }
 
     html, body {
@@ -54,9 +54,19 @@
       font-size: 15px;
       letter-spacing: 0.02em;
       color: var(--text);
-      margin-right: auto;
     }
     #topbar .brand span { color: var(--accent); }
+
+    /* Name of the section currently on screen. */
+    #section-name {
+      margin-right: auto;
+      padding-left: 14px;
+      border-left: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
 
     .nav-btn {
       background: var(--border);
@@ -107,9 +117,9 @@
       padding: 0 14px;
       height: 36px;
       border-radius: 8px;
-      border: 1px solid rgba(233,30,140,0.4);
-      background: rgba(233,30,140,0.12);
-      color: #E91E8C;
+      border: 1px solid rgba(224,56,159,0.4);
+      background: rgba(224,56,159,0.12);
+      color: var(--accent);
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
@@ -117,7 +127,7 @@
       transition: background 0.15s, border-color 0.15s;
       white-space: nowrap;
     }
-    #dl-btn:hover { background: rgba(233,30,140,0.22); border-color: var(--accent); }
+    #dl-btn:hover { background: rgba(224,56,159,0.22); border-color: var(--accent); }
     #dl-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
     #dl-btn.unavailable { opacity: 0.35; pointer-events: none; }
 
@@ -168,7 +178,7 @@
       opacity: 0;
     }
     #stage:hover .arrow-overlay { opacity: 1; }
-    .arrow-overlay:hover { color: var(--text); background: rgba(233,30,140,0.25); border-color: var(--accent); }
+    .arrow-overlay:hover { color: var(--text); background: rgba(224,56,159,0.25); border-color: var(--accent); }
     .arrow-overlay:disabled { pointer-events: none; opacity: 0 !important; }
     .arrow-overlay svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
     #arrow-prev { left: 16px; }
@@ -204,9 +214,9 @@
       border: 2px solid transparent;
       transition: border-color 0.15s, transform 0.15s;
       position: relative;
-      background: #0e0e0e;
+      background: var(--surface);
     }
-    .thumb:hover { border-color: rgba(233,30,140,0.5); transform: translateY(-2px); }
+    .thumb:hover { border-color: rgba(224,56,159,0.5); transform: translateY(-2px); }
     .thumb.active { border-color: var(--accent); }
 
     .thumb-frame-wrap {
@@ -227,19 +237,30 @@
       pointer-events: none;
     }
 
+    /* Sits below the preview rather than over it, so the slide art stays
+       unobscured and the section name is actually readable. */
     .thumb-label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 3px 6px;
-      font-size: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 8px;
+      font-size: 10.5px;
       font-weight: 600;
       color: var(--muted);
-      background: linear-gradient(transparent, rgba(0,0,0,0.7));
-      text-align: center;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .thumb.active .thumb-label { color: var(--accent); }
+    .thumb-label em {
+      font-style: normal;
+      font-variant-numeric: tabular-nums;
+      color: #4E4E5A;
+      font-weight: 700;
+    }
+    .thumb.active .thumb-label { color: var(--text); background: rgba(224,56,159,0.13); }
+    .thumb.active .thumb-label em { color: var(--accent); }
 
     /* ── Progress bar ───────────────────────────────── */
     #progress {
@@ -271,12 +292,13 @@
   <!-- Top bar -->
   <header id="topbar">
     <div class="brand">Store<span>Factory</span> &nbsp;·&nbsp; Pitch Deck</div>
+    <div id="section-name"></div>
 
     <button class="nav-btn" id="btn-prev" title="Previous (←)">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
 
-    <span id="slide-counter"><strong>1</strong> / 15</span>
+    <span id="slide-counter"><strong>1</strong> / 16</span>
 
     <button class="nav-btn" id="btn-next" title="Next (→)">
       <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
@@ -326,7 +348,14 @@
 </div>
 
 <script>
-  const SLIDES = Array.from({length: 15}, (_, i) => `pitch-deck/slide-${i + 1}.html`);
+  // Titles double as the thumbnail labels and the section list, so the deck's
+  // running order lives in exactly one place.
+  const TITLES = [
+    'Cover', 'Problem', 'Why now', 'Solution', 'Product', 'Under the hood',
+    'Traction', 'Market', 'Competition', 'Business model', 'Unit economics',
+    'Go-to-market', 'Financials', 'The ask', 'Team', 'Close',
+  ];
+  const SLIDES = TITLES.map((_, i) => `pitch-deck/slide-${i + 1}.html`);
   const TOTAL  = SLIDES.length;
 
   let current = 0;
@@ -378,6 +407,7 @@
 
   function updateUI() {
     counter.innerHTML = `<strong>${current + 1}</strong> / ${TOTAL}`;
+    document.getElementById('section-name').textContent = TITLES[current];
     progress.style.width = ((current + 1) / TOTAL * 100) + '%';
 
     btnPrev.disabled   = current === 0;
@@ -402,7 +432,7 @@
     SLIDES.forEach((src, i) => {
       const thumb = document.createElement('div');
       thumb.className = 'thumb';
-      thumb.title = `Slide ${i + 1}`;
+      thumb.title = `${i + 1}. ${TITLES[i]}`;
 
       const fw = document.createElement('div');
       fw.className = 'thumb-frame-wrap';
@@ -416,7 +446,7 @@
 
       const label = document.createElement('div');
       label.className = 'thumb-label';
-      label.textContent = `${i + 1}`;
+      label.innerHTML = `<em>${String(i + 1).padStart(2, '0')}</em>${TITLES[i]}`;
 
       fw.appendChild(tf);
       thumb.appendChild(fw);
